@@ -26,6 +26,10 @@ public class OperationUtils {
      * @throws OperationFromJSONException Se ocorrer um erro ao converter a string JSON
      */
     public static List<Operation> convertToOperationsFromJSON(String json) {
+        if(json == null || json.isBlank()) {
+            return List.of();
+        }
+
         final ObjectMapper objectMapper = new ObjectMapper();
         try {
             return objectMapper.readValue(json, new TypeReference<>() {});
