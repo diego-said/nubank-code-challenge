@@ -2,7 +2,7 @@ package br.com.nubank;
 
 import br.com.nubank.config.ConfigLoader;
 import br.com.nubank.config.ConfigNames;
-import br.com.nubank.entities.Operation;
+import br.com.nubank.core.entities.Operation;
 import br.com.nubank.util.OperationUtils;
 
 import java.util.Optional;

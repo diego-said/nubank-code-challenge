@@ -1,4 +1,4 @@
-package br.com.nubank.entities;
+package br.com.nubank.core.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

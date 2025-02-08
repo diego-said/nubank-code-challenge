@@ -1,6 +1,6 @@
 package br.com.nubank.util;
 
-import br.com.nubank.entities.Operation;
+import br.com.nubank.core.entities.Operation;
 import br.com.nubank.exceptions.OperationFromJSONException;
 import org.junit.jupiter.api.Test;
 
