@@ -6,6 +6,7 @@ package br.com.nubank.config;
 public enum ConfigNames {
 
     MAX_OPERATION_VALUE("max.operation.value"),
+    TAX_PERCENT("tax.percent"),
     ;
 
     private final String name;

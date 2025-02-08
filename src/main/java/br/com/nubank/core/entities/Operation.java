@@ -21,6 +21,10 @@ public class Operation {
     @JsonProperty("quantity")
     private int quantity;
 
+    public double getTotalCost() {
+        return unitCost * quantity;
+    }
+
     @Override
     public String toString() {
         return "Operation{" +

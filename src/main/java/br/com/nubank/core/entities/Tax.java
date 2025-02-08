@@ -15,4 +15,11 @@ public class Tax {
     @JsonProperty("tax")
     private double value;
 
+    @Override
+    public String toString() {
+        return "Tax{" +
+                "value=" + value +
+                '}';
+    }
+
 }
