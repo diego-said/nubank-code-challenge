@@ -46,4 +46,5 @@ class OperationUtilsTest {
         List<Operation> operations = OperationUtils.convertToOperationsFromJSON("");
         assertTrue(operations.isEmpty());
     }
+
 }
