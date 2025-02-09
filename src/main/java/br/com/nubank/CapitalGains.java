@@ -3,12 +3,12 @@ package br.com.nubank;
 import br.com.nubank.config.ConfigLoader;
 import br.com.nubank.config.ConfigNames;
 import br.com.nubank.core.WalletProcessor;
-import br.com.nubank.core.entities.Operation;
-import br.com.nubank.core.entities.Wallet;
 import br.com.nubank.util.OperationUtils;
 import br.com.nubank.util.TaxUtils;
+import br.com.nubank.util.WalletUtils;
 
-import java.util.*;
+import java.util.Optional;
+import java.util.Scanner;
 
 public class CapitalGains {
 
@@ -25,24 +25,13 @@ public class CapitalGains {
             }
 
             var operations = OperationUtils.convertToOperationsFromJSON(line);
-            var wallet = createWallet(operations);
+            var wallet = WalletUtils.createWallet(operations);
             var taxes = new WalletProcessor(maxOperationValue.orElse(0.0), taxPercent.orElse(0)).processWallet(wallet);
 
             System.out.println(TaxUtils.convertTaxListToJson(taxes));
         }
 
         scanner.close();
-    }
-
-    private static Wallet createWallet(List<Operation> operations) {
-        return Wallet.builder()
-                .walletId(UUID.randomUUID())
-                .operations(operations)
-                .taxes(new ArrayList<>(operations.size()))
-                .weightedAveragePrice(0.0)
-                .totalQuantity(0)
-                .loss(0.0)
-                .build();
     }
 
 }
