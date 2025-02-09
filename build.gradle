@@ -1,5 +1,6 @@
 plugins {
     id 'java-library'
+    id 'application'
 }
 
 group = 'br.com.nubank'
@@ -48,4 +49,28 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+application {
+    mainClass.set("br.com.nubank.CapitalGains")
+}
+
+task runWithInput(type: JavaExec) {
+    mainClass.set('br.com.nubank.CapitalGains')
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = new FileInputStream('scenarios/case-all.txt')
+}
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'br.com.nubank.CapitalGains'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    with jar
+    archiveBaseName.set('capital-gains')
+    archiveClassifier.set('all')
+    destinationDirectory = file("$rootDir")
 }

@@ -28,8 +28,6 @@ public class WalletProcessor {
             return List.of();
         }
 
-        logger.info(format("Processing wallet with id [%s]", wallet.getWalletId()));
-
         if (firstOperationIsSell(wallet)) {
             logger.info(format("First operation of wallet with id [%s] is a sell operation", wallet.getWalletId()));
             return List.of();
@@ -92,7 +90,7 @@ public class WalletProcessor {
             if (diff > 0.0) { // se a diferença for maior que as perdas, o imposto é calculado sobre a diferença
                 wallet.setLoss(0.0);
                 wallet.getTaxes().add(new Tax(calculateTax(diff)));
-            } else { // mesmo ocorrendo lucro, se houver perdas maior que o lucro o imposto é zerado
+            } else { // mesmo ocorrendo lucro, se houver perdas maiores que o lucro o imposto é zerado
                 wallet.setLoss(BigDecimal.valueOf(wallet.getLoss()).subtract(BigDecimal.valueOf(profit)).doubleValue());
                 wallet.getTaxes().add(new Tax(0.0));
             }
@@ -152,7 +150,7 @@ public class WalletProcessor {
     }
 
     /**
-     * Calcula o imposto de uma operação de venda
+     * Calcula o imposto sobre lucro de uma operação de venda
      *
      * @param profit Lucro da operação
      * @return Imposto
