@@ -75,10 +75,10 @@ public class WalletProcessor {
             wallet.getTaxes().add(new Tax(0.0));
 
             if (operation.getUnitCost() < wallet.getWeightedAveragePrice()) { // verifica se ocorreu prejuízo para adicionar ao total de perdas
-                addLossToWallet(wallet, operation);
+                wallet.addLoss(calculateLoss(wallet, operation));
             }
 
-            withdrawQuantitySold(wallet, operation);
+            wallet.withdrawQuantitySold(operation);
             return;
         }
 
@@ -97,34 +97,10 @@ public class WalletProcessor {
         } else {
             wallet.getTaxes().add(new Tax(0.0));
 
-            addLossToWallet(wallet, operation);
+            wallet.addLoss(calculateLoss(wallet, operation));
         }
 
-        withdrawQuantitySold(wallet, operation);
-    }
-
-    /**
-     * Adiciona a perda de uma operação de venda à carteira
-     *
-     * @param wallet     Carteira
-     * @param operation  Operação de venda
-     */
-    private void addLossToWallet(Wallet wallet, Operation operation) {
-        double loss = calculateLoss(wallet, operation);
-        wallet.setLoss(BigDecimal.valueOf(wallet.getLoss()).add(BigDecimal.valueOf(loss)).doubleValue());
-    }
-
-    /**
-     * Remove a quantidade de uma operação de venda da carteira
-     *
-     * @param wallet     Carteira
-     * @param operation  Operação de venda
-     */
-    private void withdrawQuantitySold(Wallet wallet, Operation operation) {
-        wallet.setTotalQuantity(wallet.getTotalQuantity() - operation.getQuantity());
-        if (wallet.getTotalQuantity() == 0) { // se a quantidade total da carteira for 0, o preço médio ponderado é zerado
-            wallet.setWeightedAveragePrice(0.0);
-        }
+        wallet.withdrawQuantitySold(operation);
     }
 
     /**
