@@ -44,7 +44,7 @@ public class WalletProcessor {
         return wallet.getTaxes();
     }
 
-    private boolean firstOperationIsSell(Wallet wallet) {
+    protected boolean firstOperationIsSell(Wallet wallet) {
         return OperationType.SELL.name().equalsIgnoreCase(wallet.getOperations().getFirst().getType());
     }
 
@@ -56,7 +56,7 @@ public class WalletProcessor {
         wallet.setTotalQuantity(wallet.getTotalQuantity() + operation.getQuantity());
     }
 
-    private void processSellOperation(Wallet wallet, Operation operation) {
+    protected void processSellOperation(Wallet wallet, Operation operation) {
         if (operation.getTotalCost() <= maxOperationValue) { // se a operação de venda for menor que o valor máximo permitido, não é cobrado imposto
             wallet.getTaxes().add(new Tax(0.0));
 
