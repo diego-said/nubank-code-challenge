@@ -4,17 +4,11 @@ import br.com.nubank.config.ConfigLoader;
 import br.com.nubank.config.ConfigNames;
 import br.com.nubank.core.WalletProcessor;
 import br.com.nubank.core.entities.Operation;
-import br.com.nubank.core.entities.Tax;
 import br.com.nubank.core.entities.Wallet;
 import br.com.nubank.util.OperationUtils;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import br.com.nubank.util.TaxUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
-import java.util.UUID;
+import java.util.*;
 
 public class CapitalGains {
 
@@ -34,7 +28,7 @@ public class CapitalGains {
             var wallet = createWallet(operations);
             var taxes = new WalletProcessor(maxOperationValue.orElse(0.0), taxPercent.orElse(0)).processWallet(wallet);
 
-            System.out.println(convertTaxListToJson(taxes));
+            System.out.println(TaxUtils.convertTaxListToJson(taxes));
         }
 
         scanner.close();
@@ -49,16 +43,6 @@ public class CapitalGains {
                 .totalQuantity(0)
                 .loss(0.0)
                 .build();
-    }
-
-    public static String convertTaxListToJson(List<Tax> taxList) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.writeValueAsString(taxList);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
 }
