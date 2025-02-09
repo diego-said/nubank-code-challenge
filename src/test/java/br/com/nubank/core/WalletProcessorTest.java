@@ -104,4 +104,94 @@ class WalletProcessorTest {
         assertEquals(0.0, wallet.getTaxes().get(0).getValue());
     }
 
+    @Test
+    void processSellOperationWithProfitAndNoPreviousLoss() {
+        Wallet wallet = Wallet.builder()
+                .weightedAveragePrice(100.0)
+                .totalQuantity(10)
+                .loss(0.0)
+                .taxes(new ArrayList<>())
+                .build();
+        Operation operation = new Operation("sell", 150.0, 5);
+        WalletProcessor processor = new WalletProcessor(100.0, 10);
+
+        processor.processSellOperation(wallet, operation);
+
+        assertEquals(1, wallet.getTaxes().size());
+        assertEquals(25.0, wallet.getTaxes().get(0).getValue());
+        assertEquals(5, wallet.getTotalQuantity());
+    }
+
+    @Test
+    void processSellOperationWithProfitAndPreviousLoss() {
+        Wallet wallet = Wallet.builder()
+                .weightedAveragePrice(100.0)
+                .totalQuantity(10)
+                .loss(100.0)
+                .taxes(new ArrayList<>())
+                .build();
+        Operation operation = new Operation("sell", 150.0, 5);
+        WalletProcessor processor = new WalletProcessor(100.0, 10);
+
+        processor.processSellOperation(wallet, operation);
+
+        assertEquals(1, wallet.getTaxes().size());
+        assertEquals(15.0, wallet.getTaxes().get(0).getValue());
+        assertEquals(0.0, wallet.getLoss());
+        assertEquals(5, wallet.getTotalQuantity());
+    }
+
+    @Test
+    void processSellOperationWithLoss() {
+        Wallet wallet = Wallet.builder()
+                .weightedAveragePrice(100.0)
+                .totalQuantity(10)
+                .taxes(new ArrayList<>())
+                .build();
+        Operation operation = new Operation("sell", 50.0, 5);
+        WalletProcessor processor = new WalletProcessor(1000.0, 10);
+
+        processor.processSellOperation(wallet, operation);
+
+        assertEquals(1, wallet.getTaxes().size());
+        assertEquals(0.0, wallet.getTaxes().get(0).getValue());
+        assertEquals(250.0, wallet.getLoss());
+        assertEquals(5, wallet.getTotalQuantity());
+    }
+
+    @Test
+    void processSellOperationWithMaxOperationValue() {
+        Wallet wallet = Wallet.builder()
+                .weightedAveragePrice(100.0)
+                .totalQuantity(10)
+                .taxes(new ArrayList<>())
+                .build();
+        Operation operation = new Operation("sell", 50.0, 5);
+        WalletProcessor processor = new WalletProcessor(1000.0, 10);
+
+        processor.processSellOperation(wallet, operation);
+
+        assertEquals(1, wallet.getTaxes().size());
+        assertEquals(0.0, wallet.getTaxes().get(0).getValue());
+        assertEquals(250.0, wallet.getLoss());
+        assertEquals(5, wallet.getTotalQuantity());
+    }
+
+    @Test
+    void processSellOperationWithZeroQuantity() {
+        Wallet wallet = Wallet.builder()
+                .weightedAveragePrice(100.0)
+                .totalQuantity(50)
+                .taxes(new ArrayList<>())
+                .build();
+        Operation operation = new Operation("sell", 50.0, 0);
+        WalletProcessor processor = new WalletProcessor(1000.0, 10);
+
+        processor.processSellOperation(wallet, operation);
+
+        assertEquals(1, wallet.getTaxes().size());
+        assertEquals(0.0, wallet.getTaxes().get(0).getValue());
+        assertEquals(50, wallet.getTotalQuantity());
+    }
+
 }
