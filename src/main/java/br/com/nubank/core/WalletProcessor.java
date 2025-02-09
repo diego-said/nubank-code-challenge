@@ -102,28 +102,6 @@ public class WalletProcessor {
         wallet.withdrawQuantitySold(operation);
     }
 
-//    /**
-//     * Calcula o lucro de uma operação de venda
-//     *
-//     * @param wallet     Carteira
-//     * @param operation  Operação de venda
-//     * @return Lucro
-//     */
-//    private double calculateProfit(Wallet wallet, Operation operation) {
-//        return (operation.getUnitCost() - wallet.getWeightedAveragePrice()) * operation.getQuantity();
-//    }
-
-//    /**
-//     * Calcula a perda de uma operação de venda
-//     *
-//     * @param wallet     Carteira
-//     * @param operation  Operação de venda
-//     * @return Perda
-//     */
-//    private double calculateLoss(Wallet wallet, Operation operation) {
-//        return (wallet.getWeightedAveragePrice() - operation.getUnitCost()) * operation.getQuantity();
-//    }
-
     /**
      * Calcula o imposto sobre lucro de uma operação de venda
      *
