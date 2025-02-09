@@ -51,23 +51,9 @@ public class WalletProcessor {
     protected void processBuyOperation(Wallet wallet, Operation operation) {
         wallet.getTaxes().add(new Tax(0.0));
 
-        final double actualWeightedAveragePrice = calculateWeightedAveragePrice(wallet, operation);
+        final double actualWeightedAveragePrice = wallet.calculateWeightedAveragePrice(operation);
         wallet.setWeightedAveragePrice(actualWeightedAveragePrice);
         wallet.setTotalQuantity(wallet.getTotalQuantity() + operation.getQuantity());
-    }
-
-    /**
-     * Calcula o preço médio ponderado de uma carteira após uma operação de compra
-     *
-     * @param wallet     Carteira
-     * @param operation  Operação de compra
-     * @return Preço médio ponderado
-     */
-    protected double calculateWeightedAveragePrice(Wallet wallet, Operation operation) {
-        BigDecimal walletTotal = BigDecimal.valueOf(wallet.getTotalQuantity()).multiply(BigDecimal.valueOf(wallet.getWeightedAveragePrice()));
-        BigDecimal operationTotal = BigDecimal.valueOf(operation.getQuantity()).multiply(BigDecimal.valueOf(operation.getUnitCost()));
-        BigDecimal totalQuantity = BigDecimal.valueOf(wallet.getTotalQuantity()).add(BigDecimal.valueOf(operation.getQuantity()));
-        return walletTotal.add(operationTotal).divide(totalQuantity, 2, RoundingMode.HALF_UP).doubleValue();
     }
 
     private void processSellOperation(Wallet wallet, Operation operation) {
