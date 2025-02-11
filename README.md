@@ -118,6 +118,12 @@ Para executar os testes unitários, execute:
 ./gradlew test
 ```
 
+## Notas Adicionais
+
+- O uso de exceções personalizadas melhora a identificação de erros e a depuração da aplicação.
+- A configuração do projeto com Gradle simplifica a gestão de dependências e automação de tarefas.
+- O projeto usa o padrão UTF-8.
+
 ## Licença
 
 Este projeto está licenciado sob a licença MIT.
