@@ -33,6 +33,14 @@ public class WalletProcessor {
             return List.of();
         }
 
+        //verfica se alguma das operações possui quantidade ou custo unitário negativo
+        for(Operation operation : wallet.getOperations()) {
+            if(operation.getQuantity() <= 0 || operation.getUnitCost() <= 0) {
+                logger.error(format("Operation with quantity or unit cost less than or equal to zero in wallet with id [%s]", wallet.getWalletId()));
+                return List.of();
+            }
+        }
+
         for(Operation operation : wallet.getOperations()) {
             if (OperationType.BUY.name().equalsIgnoreCase(operation.getType())) {
                 processBuyOperation(wallet, operation);
